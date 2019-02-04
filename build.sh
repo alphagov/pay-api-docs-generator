@@ -12,12 +12,12 @@ NC='\033[0m' # No Color
 rm -rf swagger
 rm -rf shins
 
-if ! which node > /dev/null; then \
+if ! command -v node > /dev/null; then \
   echo -e "${red} Nodejs is not available, please install NodeJs (https://nodejs.org) ${NC}"
   exit 1; \
 fi
 
-if ! which git > /dev/null; then \
+if ! command -v git > /dev/null; then \
   echo -e "${red} git is not available, please install Git (https://git-scm.com) ${NC}"
   exit 1; \
 fi

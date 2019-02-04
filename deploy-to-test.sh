@@ -3,16 +3,14 @@
 set -eo pipefail
 
 CF="cf"
-CF_API_URL="api.cloud.service.gov.uk"
-CF_SPACE="sandbox"
-CF_ORG="govuk-pay"
 APP_NAME="govukpay-api-browser-test"
 
 # Set up term colors
+white='\033[1;37m'
 green='\033[1;32m'
 red='\033[0;31m'
 
-if ! which ${CF} > /dev/null; then \
+if ! command -v ${CF} > /dev/null; then \
   echo -e "${red} ${CF} not installed, please install CloudFoundry CLI...${NC}"
   exit 1; \
 fi

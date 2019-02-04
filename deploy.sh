@@ -15,7 +15,7 @@ white='\033[1;37m'
 yellow='\033[1;33m'
 NC='\033[0m' # No Color
 
-if ! which ${CF} > /dev/null; then \
+if ! command -v ${CF} > /dev/null; then \
   echo -e "${red} ${CF} not installed, please install CloudFoundry CLI...${NC}"
   exit 1; \
 fi
@@ -39,8 +39,8 @@ echo -e "${white}Logging into CF...${NC}"
 set +x
 ${CF} login \
   -a ${CF_API_URL} \
-  -u ${CF_API_USER} \
-  -p ${CF_API_PASS} \
+  -u "${CF_API_USER}" \
+  -p "${CF_API_PASS}" \
   -o ${CF_ORG} \
   -s ${CF_SPACE}
 set -x
