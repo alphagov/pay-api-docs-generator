@@ -32,14 +32,19 @@ else
     PUBLIC_API_BRANCH="${PUBLIC_API_BRANCH}"
 fi;
 
-if [[ -z "${PUBLIC_API_URL}" ]]; then
-    PUBLIC_API_URL="https://raw.githubusercontent.com/alphagov/pay-publicapi/${PUBLIC_API_BRANCH}/swagger/swagger.json"
+if [[ -z "${PUBLIC_API_SWAGGER_URL}" ]]; then
+    PUBLIC_API_SWAGGER_URL="https://raw.githubusercontent.com/alphagov/pay-publicapi/${PUBLIC_API_BRANCH}/swagger/swagger.json"
 else
-    PUBLIC_API_URL="${PUBLIC_API_URL}"
+    PUBLIC_API_SWAGGER_URL="${PUBLIC_API_SWAGGER_URL}"
 fi;
 
-echo "Getting Swagger file from location '$PUBLIC_API_URL'"
-wget -P swagger $PUBLIC_API_URL
+echo "Getting Swagger file from location '$PUBLIC_API_SWAGGER_URL'"
+if [[ $PUBLIC_API_SWAGGER_URL == http* ]]; then
+    wget -P swagger "$PUBLIC_API_SWAGGER_URL"
+else
+    mkdir swagger
+    cp "$PUBLIC_API_SWAGGER_URL" swagger
+fi;
 
 # -- Build docs --
 echo -e "${white} Converting swagger file to shins compatible markdown...${NC}"
