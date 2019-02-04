@@ -30,16 +30,16 @@ To make changes, raise a
 with code changes that updates swagger file. 
 
 Changes can also be previewed locally (own computer) by either passing a swagger file or http(s) url 
-for raw swagger file via PUBLIC_API_SWAGGER_URL envionment variable as follows:
+for raw swagger file via `PUBLIC_API_SWAGGER_SRC` envionment variable as follows:
 
 ```
-PUBLIC_API_SWAGGER_URL=[PATH_TO_LOCAL_FILE OR HTTP_URL_FOR_RAW_SWAGGER_FILE] ./build.sh
+PUBLIC_API_SWAGGER_SRC=[PATH_TO_LOCAL_FILE OR HTTP_URL_FOR_RAW_SWAGGER_FILE] ./build.sh
 ```
 
 *Examples*
 ```
-PUBLIC_API_SWAGGER_URL=https://raw.githubusercontent.com/alphagov/pay-publicapi/master/swagger/swagger.json ./build.sh
-PUBLIC_API_SWAGGER_URL=/home/projects/pay-publicapi/swagger/swagger.json ./build.sh
+PUBLIC_API_SWAGGER_SRC=https://raw.githubusercontent.com/alphagov/pay-publicapi/master/swagger/swagger.json ./build.sh
+PUBLIC_API_SWAGGER_SRC=/home/projects/pay-publicapi/swagger/swagger.json ./build.sh
 ```
 
 You should now be able to view generated API documentation from folder /shins/build/index.html 
