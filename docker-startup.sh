@@ -1,7 +1,10 @@
 #!/usr/bin/env bash
 
+set -eu
+
 white='\033[1;37m'
 green='\033[1;32m'
+NC='\033[0m' # No Color
 
 echo -e "${white} Converting swagger file to shins compatible markdown...${NC}"
 npm install

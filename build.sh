@@ -38,6 +38,7 @@ fi
 cp source/images/govuk_pay_logo.png shins/source/images/logo.png
 
 # -- Build docs inside docker container --
-docker build --rm -t govukpay/pay-api-docs-generator:local .
-
-docker run --rm -v "$(pwd)":/app govukpay/pay-api-docs-generator:local
+IMAGE_ID=$(docker build . 2>/dev/null | awk '/Successfully built/{print $NF}')
+echo "Built docker image (ID ${IMAGE_ID})"
+docker run --rm -v "$(pwd)":/app "$IMAGE_ID"
+docker image rm "$IMAGE_ID"
