@@ -19,6 +19,7 @@ build-local.sh
 coverage
 env.sh
 logs/**/*
+build/
 node_modules
 node_modules_local
 pacts
