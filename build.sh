@@ -3,9 +3,7 @@
 set -euo pipefail
 
 # Set up term colors
-green='\033[1;32m'
 red='\033[0;31m'
-white='\033[1;37m'
 NC='\033[0m' # No Color
 
 cd "$(dirname "$0")"
@@ -13,8 +11,8 @@ cd "$(dirname "$0")"
 # ---- clean up existing directories 
 rm -rf swagger
 
-if ! command -v node > /dev/null; then
-  echo -e "${red} Nodejs is not available, please install NodeJs (https://nodejs.org) ${NC}" >&2
+if ! command -v docker > /dev/null; then
+  echo -e "${red} Docker is not available, please install Docker (https://www.docker.com/) ${NC}" >&2
   exit 1
 fi
 
@@ -37,18 +35,10 @@ else
     cp "$PUBLIC_API_SWAGGER_SRC" swagger/
 fi
 
-# -- Build docs --
-echo -e "${white} Converting swagger file to shins compatible markdown...${NC}"
 cp source/images/govuk_pay_logo.png shins/source/images/logo.png
-npm install
-./node_modules/widdershins/widdershins.js swagger/swagger.json -o shins/source/index.html.md
 
-echo -e "${white} Building static docs...${NC}"
-cd shins
-npm install
-node shins.js --minify
-
-# -- Move static files to 'build' folder --
-mkdir -p build
-cp -R index.html pub source build/
-echo -e "${green}Built pay-api-docs static files...${NC}"
+# -- Build docs inside docker container --
+IMAGE_ID=$(docker build . 2>/dev/null | awk '/Successfully built/{print $NF}')
+echo "Built docker image (ID ${IMAGE_ID})"
+docker run --rm -v "$(pwd)":/app "$IMAGE_ID"
+docker image rm "$IMAGE_ID"
