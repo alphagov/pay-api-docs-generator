@@ -5,6 +5,10 @@ pipeline {
 
     parameters {
         string(defaultValue: "master", description: 'Public API git branch/tag', name: 'PublicApiBranch')
+        booleanParam(
+                description: 'Check this parameter to publish API documentation',
+                name: 'DEPLOY',
+                defaultValue: false)
     }
 
     environment {
@@ -20,7 +24,10 @@ pipeline {
         }
         stage('Deploy') {
             when {
-                branch 'master'
+                allOf {
+                    branch 'master'
+                    expression { params.DEPLOY == true }
+                }
             }
             steps {
                 sh "echo ${AWS_DEFAULT_REGION}"

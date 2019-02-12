@@ -1,6 +1,6 @@
 #!/bin/bash
 
-set -euo pipefail
+set -eo pipefail
 
 CF=cf
 CF_API_URL=api.cloud.service.gov.uk
