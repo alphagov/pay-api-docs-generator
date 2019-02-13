@@ -24,7 +24,9 @@ fi
 
 echo -e "${white}Installing virtualenv.${NC}"
 virtualenv venv
+set +u
 . ./venv/bin/activate
+set -u
 ./venv/bin/python ./venv/bin/pip install -qUr requirements.txt
 echo -e "${green}Virtualenv installed...${NC}"
 

@@ -2,6 +2,6 @@
 applications:
 - name: govukpay-api-browser
   memory: 64M
-  path: ./shins/build
+  path: ./build
   buildpack: staticfile_buildpack
   instances: 2
