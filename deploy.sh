@@ -1,6 +1,6 @@
 #!/bin/bash
 
-set -eo pipefail
+set -euo pipefail
 
 CF=cf
 CF_API_URL=api.cloud.service.gov.uk
@@ -24,7 +24,9 @@ fi
 
 echo -e "${white}Installing virtualenv.${NC}"
 virtualenv venv
+set +u
 . ./venv/bin/activate
+set -u
 ./venv/bin/python ./venv/bin/pip install -qUr requirements.txt
 echo -e "${green}Virtualenv installed...${NC}"
 
