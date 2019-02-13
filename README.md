@@ -11,7 +11,7 @@ Install [Node.js](https://nodejs.org/en/) and in the application folder type the
 ```
 and browse API documentation generated here
 ```
-./shins/build/index.html
+./build/index.html
 ```
 
 The API documentation is generated through the use of 
