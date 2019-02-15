@@ -42,9 +42,13 @@ PUBLIC_API_SWAGGER_SRC=https://raw.githubusercontent.com/alphagov/pay-publicapi/
 PUBLIC_API_SWAGGER_SRC=/home/projects/pay-publicapi/swagger/swagger.json ./build.sh
 ```
 
-You should now be able to view generated API documentation from folder /shins/build/index.html 
+You should now be able to view generated API documentation from folder /build/index.html 
+
+### Shins
+
+A fork of [shins](https://github.com/alphagov/shins) is used in the build process. This is to ensure that the compatability is maintained with the widdershins package ([3.6.7](https://www.npmjs.com/package/widdershins/v/3.6.7)) during the build process. For any upgrades to widdershins library / shins repository, ensure to check that the API documentation is rendered correctly before publishing documentation.
 
 ## Build
 
-All files are generated as static html pages in `shins/build` folder.
+All files are generated as static html pages in `/build` folder.
 
