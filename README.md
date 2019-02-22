@@ -4,7 +4,7 @@
 
 To preview or build the website, we need to use the terminal.
 
-Install [Node.js](https://nodejs.org/en/) and in the application folder type the following :
+Install [Docker](https://www.docker.com/) & [Git](https://git-scm.com), and in the application folder type the following :
 
 ```
 ./build.sh
@@ -15,6 +15,7 @@ and browse API documentation generated here
 ```
 
 The API documentation is generated through the use of 
+ - Generated Docker container (with Node.js base image) - which is removed after the build process.
  - widdershins [npm module](https://www.npmjs.com/package/widdershins) to convert the
  [swagger.json](https://github.com/alphagov/pay-publicapi/blob/master/swagger/swagger.json) 
  to Markdown.
@@ -25,11 +26,13 @@ file is generated from annotated classes in [publicapi](https://github.com/alpha
 
 ## Making changes
 
-To make changes, raise a 
-[pull request](https://github.com/alphagov/pay-publicapi/blob/master/.github/PULL_REQUEST_TEMPLATE.md) 
-with code changes that updates swagger file. 
+To make changes to API documentation, 
+* Update [publicapi](https://github.com/alphagov/pay-publicapi) code with relevant swagger annotations for the changes
+* Run `mvn compile` command from publicapi application folder to ensure swagger file is updated with changes.
+* Raise a [pull request](https://github.com/alphagov/pay-publicapi/blob/master/.github/PULL_REQUEST_TEMPLATE.md) 
+with code changes so the changes can be reviewed and merged into master. 
 
-Changes can also be previewed locally (own computer) by either passing a swagger file or http(s) url 
+Changes can be previewed locally (own computer) by either passing a swagger file or http(s) url 
 for raw swagger file via `PUBLIC_API_SWAGGER_SRC` envionment variable as follows:
 
 ```
@@ -50,5 +53,9 @@ A fork of [shins](https://github.com/alphagov/shins) is used in the build proces
 
 ## Build
 
-All files are generated as static html pages in `/build` folder.
+All files are generated as static html pages in `/build` folder. 
+
+## Publish
+
+See [pay-team-manual/publish-api-docs](https://pay-team-manual.cloudapps.digital/release-processes/publish-public-api-docs/)
 
