@@ -2,7 +2,7 @@
   "dependencies": {
     "mkdirp": "^0.5.1",
     "shins": "^2.3.2-3",
-    "widdershins": "3.6.7"
+    "widdershins": "4.0.1"
   },
   "devDependencies": {}
 }
