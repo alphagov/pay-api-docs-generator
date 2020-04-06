@@ -1,6 +1,6 @@
 {
   "dependencies": {
-    "mkdirp": "^0.5.1",
+    "mkdirp": "^1.0.4",
     "shins": "^2.3.2-3",
     "widdershins": "3.6.7"
   },
