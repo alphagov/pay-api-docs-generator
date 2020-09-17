@@ -57,5 +57,4 @@ All files are generated as static html pages in `/build` folder.
 
 ## Publish
 
-See [pay-team-manual/publish-api-docs](https://pay-team-manual.cloudapps.digital/release-processes/publish-public-api-docs/)
-
+See [the Pay team manual page on publishing API docs](https://pay-team-manual.cloudapps.digital/manual/release-processes/publish-public-api-docs.html).
