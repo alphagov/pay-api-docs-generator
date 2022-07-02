@@ -6,51 +6,51 @@ CF=cf
 CF_API_URL=api.cloud.service.gov.uk
 CF_SPACE=sandbox
 CF_ORG=govuk-pay
-APP_NAME=govukpay-api-browser
+ALLOWED_APP_NAMES="adminusers, cardid, connector, publicauth, products, webhooks"
 
 # Set up term colors
 green='\033[1;32m'
 red='\033[0;31m'
 white='\033[1;37m'
-yellow='\033[1;33m'
 NC='\033[0m' # No Color
 
 cd "$(dirname "$0")"
 
-if ! command -v ${CF} > /dev/null; then
+if ! command -v ${CF} >/dev/null; then
   echo -e "${red} ${CF} not installed, please install CloudFoundry CLI...${NC}" >&2
   exit 1
 fi
 
-echo -e "${white}Installing virtualenv.${NC}"
-virtualenv venv
-set +u
-. ./venv/bin/activate
-set -u
-./venv/bin/python ./venv/bin/pip install -qUr requirements.txt
-echo -e "${green}Virtualenv installed...${NC}"
+if ! [ "$#" -eq 1 ]; then
+  echo "##  Missing required params "
+  echo "   - Usage : ./deploy.sh [app_name]"
+  echo "         app_name - $ALLOWED_APP_NAMES "
 
-echo -e "${yellow}Getting CF API Pass${NC}"
+  exit 1
+fi
 
-set +x
-CF_API_PASS=$(credstash get paas.api_pass)
-CF_API_USER=$(credstash get paas.api_user)
-set -x
+APP_NAME="$1"
+CF_APP="govuk-pay-${APP_NAME}-api-browser"
 
-echo -e "${green}Got PaaS CF API password...${NC}"
+./build.sh "$APP_NAME" tech-docs-template --build-only
 
-echo -e "${white}Logging into CF...${NC}"
+cat >"manifest.yml" <<EOM
+---
+applications:
+- name: govuk-pay-${APP_NAME}-api-browser
+  memory: 64M
+  path: ./build
+  buildpack: staticfile_buildpack
+  instances: 1
+EOM
 
-set +x
+## todo: should change if the script is to be used in CI
 "$CF" login \
   -a "$CF_API_URL" \
-  -u "$CF_API_USER" \
-  -p "$CF_API_PASS" \
   -o "$CF_ORG" \
-  -s "$CF_SPACE"
-set -x
+  -s "$CF_SPACE" --sso
 
 echo -e "${green}Successfully logged into CF...${NC}"
 echo -e "${white}Pushing application to CF...${NC}"
-"$CF" push "$APP_NAME"
-echo -e "${green}Successful deploy CF...${NC}"
+"$CF" push "$CF_APP"
+echo -e "${green}Successful deployed to CF...${NC}"

@@ -1,60 +1,94 @@
 # GOV.UK Pay API documentation
 
-## Getting started
+Preview and publish API browser for internal app APIs which include below.
 
-To preview or build the website, we need to use the terminal.
+- [pay-connector](https://github.com/alphagov/pay-connector)
+- [pay-adminusers](https://github.com/alphagov/pay-adminusers)
+- [pay-products](https://github.com/alphagov/pay-products)
+- [pay-publicauth](https://github.com/alphagov/pay-publicauth)
+- [pay-ledger](https://github.com/alphagov/pay-ledger)
+- [pay-webhooks](https://github.com/alphagov/pay-webhooks)
 
-Install [Docker](https://www.docker.com/) & [Git](https://git-scm.com), and in the application folder type the following :
+API can be previewed using tech-docs-template (https://tdt-documentation.london.cloudapps.digital/) or
+swagger-editor (https://editor.swagger.io/)
 
-```
-./build.sh
-```
-and browse API documentation generated here
-```
-./build/index.html
-```
+## Prerequisites
 
-The API documentation is generated through the use of 
- - Generated Docker container (with Node.js base image) - which is removed after the build process.
- - widdershins [npm module](https://www.npmjs.com/package/widdershins) to convert the
- [swagger.json](https://github.com/alphagov/pay-publicapi/blob/master/swagger/swagger.json) 
- to Markdown.
- - and a fork of [shins](https://github.com/alphagov/shins) to generate static html pages
+Requires
 
-[swagger.json](https://github.com/alphagov/pay-publicapi/blob/master/swagger/swagger.json)
-file is generated from annotated classes in [publicapi](https://github.com/alphagov/pay-publicapi). 
+- [Ruby](https://www.ruby-lang.org/en/documentation/installation/) to preview docs using tech docs template
+- [Docker](https://www.docker.com/) to preview API using swagger-editor
+- [cf CLI](https://docs.cloudfoundry.org/cf-cli/install-go-cli.html) to deploy
+  to [PaaS](https://docs.cloud.service.gov.uk/)
 
-## Making changes
+## Preview
 
-To make changes to API documentation, 
-* Update [publicapi](https://github.com/alphagov/pay-publicapi) code with relevant swagger annotations for the changes
-* Run `mvn compile` command from publicapi application folder to ensure swagger file is updated with changes.
-* Raise a [pull request](https://github.com/alphagov/pay-publicapi/blob/master/.github/PULL_REQUEST_TEMPLATE.md) 
-with code changes so the changes can be reviewed and merged into master. 
+To preview API docs of an app, run the below command (which reads Open API specs from the app Github repo)
 
-Changes can be previewed locally (own computer) by either passing a swagger file or http(s) url 
-for raw swagger file via `PUBLIC_API_SWAGGER_SRC` envionment variable as follows:
+  ```shell
+  ./build.sh [app] [browser]
+    app - values supported: adminusers, connector, ledger, products, publicauth, webhooks
+    browser - values supported: tech-docs-template, swagger 
+  ```
 
-```
-PUBLIC_API_SWAGGER_SRC=[PATH_TO_LOCAL_FILE OR HTTP_URL_FOR_RAW_SWAGGER_FILE] ./build.sh
-```
+- Example 1: (to preview connector docs using tech-docs-template)
+    ```shell
+    ./build.sh connector tech-docs-template
+    ```
+  View docs at http://localhost:4567
 
-*Examples*
-```
-PUBLIC_API_SWAGGER_SRC=https://raw.githubusercontent.com/alphagov/pay-publicapi/master/swagger/swagger.json ./build.sh
-PUBLIC_API_SWAGGER_SRC=/home/projects/pay-publicapi/swagger/swagger.json ./build.sh
-```
+- Example 2: (to preview connector docs using swagger editor)
+  ```shell
+  ./build.sh connector swagger
+  ```
+  View docs at http://localhost:8080
 
-You should now be able to view generated API documentation from folder /build/index.html 
+**To use a specific branch**
 
-### Shins
+- Specify the branch name or commit sha to use using BRANCH variable as below:
 
-A fork of [shins](https://github.com/alphagov/shins) is used in the build process. This is to ensure that the compatability is maintained with the widdershins package ([3.6.7](https://www.npmjs.com/package/widdershins/v/3.6.7)) during the build process. For any upgrades to widdershins library / shins repository, ensure to check that the API documentation is rendered correctly before publishing documentation.
+  Example:
+  ```shell
+  BRANCH=726bcbb4257f1ffe55435ee29ed0a0196d92ceb8 ./build.sh connector swagger
+  ```
 
-## Build
+**To preview API docs from a local repo**
 
-All files are generated as static html pages in `/build` folder. 
+- Specify the `LOCATION=local` variable. Note that $WORKSPACE is to be set and should point to the repositories parent
+  folder.
+
+  Example:
+  ```shell
+  LOCATION=local ./build.sh adminusers tech-docs-template
+  ```
 
 ## Publish
 
-See [the Pay team manual page on publishing API docs](https://pay-team-manual.cloudapps.digital/manual/release-processes/publish-public-api-docs.html).
+To publish API browser for an app, run below:
+
+```shell
+./deploy.sh [app_name]
+
+app_name: Allowed values - adminusers, connector, products, publicauth, ledger, webhooks
+
+```
+
+Docs are published to
+
+**PaaS location** : api.cloud.service.gov.uk <br>
+**org** : govuk-pay <br>
+**space** : sandbox <br>
+**Location**: Publishes docs to URL `govuk-pay-[app_name]-api-browser.cloudapps.digital`
+
+- Example
+
+  ```shell
+  ./deploy.sh connector
+  ```
+
+Open docs at https://govuk-pay-connector-api-browser.cloudapps.digital
+
+Note below for the deploy:
+
+- Only publishes using tech-docs-template
+- Generates tech-docs.yml and manifest.yml required before publishing
