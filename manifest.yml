@@ -1,7 +1,0 @@
----
-applications:
-- name: govuk-pay-team-manual-new
-  memory: 64M
-  path: ./static-page
-  buildpack: staticfile_buildpack
-  instances: 2
