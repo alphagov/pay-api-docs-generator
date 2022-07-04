@@ -2,8 +2,10 @@
 
 build/
 node_modules
-shins/
 slate/
 swagger/
 widdershins/
 venv/
+
+/config/*
+manifest.yml
