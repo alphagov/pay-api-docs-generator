@@ -1,5 +1,7 @@
 # GOV.UK Pay API documentation
 
+> As of June 2023 this repository is no longer actively maintained by the GOV.UK Pay team.
+
 Preview and publish API browser for internal app APIs which include below.
 
 - [pay-connector](https://github.com/alphagov/pay-connector)
